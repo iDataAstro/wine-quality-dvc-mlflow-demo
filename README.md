@@ -47,7 +47,7 @@ dvc metrics diff
 ```
 
 ## move back to previous commit
-1. copy the previous commit id from github.com/<user>/<repo>
+1. copy the previous commit id from github.com/USER/REPO
 2. move back with following command
 ```bash 
 git checkout <commit id>
