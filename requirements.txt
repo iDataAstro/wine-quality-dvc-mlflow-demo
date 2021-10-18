@@ -11,5 +11,3 @@ tox
 flake8
 flask
 gunicorn
-pytest
-tox

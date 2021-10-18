@@ -101,3 +101,8 @@ tox
 ```bash
 tox -r
 ```
+
+## build your own package
+```bash
+python setup.py sdist bdist_wheel
+```
