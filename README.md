@@ -23,7 +23,7 @@ dvc add data_given/winequality.csv
 1. first create empty repo on github
 2. change your local branch name from "master" to "main"
 ```bash
-git branch -m main
+git branch -M main
 ```
 3. commit to remote branch
 ```bash
