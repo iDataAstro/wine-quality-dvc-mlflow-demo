@@ -11,7 +11,6 @@ def load_and_save(config_path):
     new_cols = [cols.replace(" ", "_") for cols in df.columns]
     df.to_csv(raw_dataset_csv, index=False, header=new_cols)
 
-# comment for change
 
 if __name__ == "__main__":
     args = argparse.ArgumentParser()
