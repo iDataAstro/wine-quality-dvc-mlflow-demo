@@ -6,7 +6,7 @@ import numpy as np
 
 
 param_path = "params.yaml"
-schema_path = "schema_min_max.json"
+schema_path = os.path.join("prediction_service", "schema_min_max.json")
 
 
 class NotInRange(Exception):
@@ -33,7 +33,7 @@ def predict(data):
     model = joblib.load(model_path)
     prediction = model.predict(data).tolist()[0]
     try:
-        if prediction in range(3, 8):
+        if 3 <= prediction <= 8:
             return prediction
         else:
             raise NotInRange
@@ -70,7 +70,7 @@ def validate_input(dict_request):
 def form_response(dict_request):
     try:
         if validate_input(dict_request):
-            data = dict_request.values()
+            data = [list(map(float, dict_request.values()))]
             response = {"response": predict(data)}
             return response
     except NotInRange as e:
