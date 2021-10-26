@@ -1,4 +1,3 @@
-import pytest
 from prediction_service.prediction import form_response, api_response, NotInRange, NotInCols
 
 
