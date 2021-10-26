@@ -1,4 +1,4 @@
-# wine quality test
+# wine quality test - iDataAstro
 
 ## install packages
 ```bash
