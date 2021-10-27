@@ -74,11 +74,9 @@ def form_response(dict_request):
             response = {"response": predict(data)}
             return response
     except NotInRange as e:
-        return {"the_exected_range": get_schema(), "response": str(e)}
+        raise NotInRange({"the_exected_range": get_schema(), "response": str(e)})
     except NotInCols as e:
-        return {"the_exected_cols": get_schema().keys(), "response": str(e)}
-    except Exception as e:
-        return {"response": str(e)}
+        raise NotInCols({"the_exected_cols": get_schema().keys(), "response": str(e)})
 
 
 def api_response(dict_request):
