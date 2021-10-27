@@ -1,7 +1,7 @@
 {% extends 'base.html' %}
 
 {% block title %}
-WineQuality
+Wine Quality Prediction - iDataAstro
 {% endblock title %}
 
 
@@ -13,7 +13,6 @@ WineQuality
 
 {% block body %}
 <!-- nav bar -->
-
 <nav class="navbar navbar-expand-lg navbar-light shadow fixed-top" style="background-color: #e3f2fd;">
     <a class="navbar-brand" href="/">Wine Quality Prediction - iDataAstro</a>
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav"
@@ -26,7 +25,7 @@ WineQuality
                 <a class="nav-link" href="/">Home <span class="sr-only">(current)</span></a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="https://github.com/iDataAstro/wine-quality-dvc-mlflow-demo">source code</a>
+                <a class="nav-link" href="https://github.com/iDataAstro/wine-quality-dvc-mlflow-demo"><img src="{{ url_for('static', filename='images/iDataAstro.jpeg') }}></a>
             </li>
         </ul>
     </div>
