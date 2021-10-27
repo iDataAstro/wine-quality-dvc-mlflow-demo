@@ -70,9 +70,7 @@ def train_and_evaluate(config_path):
 
         if tracking_url_type_scheme != "file":
             mlflow.sklearn.log_model(
-                clf,
-                "model",
-                registered_model_name=mlflow_config["registered_model_name"]
+                clf, "model", registered_model_name=mlflow_config["registered_model_name"]
             )
         else:
             mlflow.sklearn.load_model(clf, "model")
