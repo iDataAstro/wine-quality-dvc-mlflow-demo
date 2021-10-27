@@ -106,3 +106,7 @@ tox -r
 ```bash
 python setup.py sdist bdist_wheel
 ```
+`
+## Wine Quality Prediction
+[Wine Quality Prediction](https://wine-quality-dvc-demo.herokuapp.com/)
+```
