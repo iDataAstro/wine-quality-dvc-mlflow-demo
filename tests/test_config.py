@@ -1,3 +1,4 @@
+import pytest
 from prediction_service.prediction import form_response, api_response, NotInRange, NotInCols
 
 
@@ -62,8 +63,8 @@ def test_api_response_correct_range(data=input_data["correct_range"]):
 
 
 def test_form_response_incorrect_range(data=input_data["incorrect_range"]):
-    res = form_response(data)
-    assert res["response"] == NotInRange().message
+    with pytest.raises(NotInRange):
+        form_response(data)
 
 
 def test_api_response_incorrect_range(data=input_data["incorrect_range"]):
@@ -72,8 +73,8 @@ def test_api_response_incorrect_range(data=input_data["incorrect_range"]):
 
 
 def test_form_response_incorrect_col(data=input_data["incorrect_col"]):
-    res = form_response(data)
-    assert res["response"] == NotInCols().message
+    with pytest.raises(NotInCols):
+        form_response(data)
 
 
 def test_api_response_incorrect_col(data=input_data["incorrect_col"]):
