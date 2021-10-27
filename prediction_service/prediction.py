@@ -68,15 +68,10 @@ def validate_input(dict_request):
 
 
 def form_response(dict_request):
-    try:
-        if validate_input(dict_request):
-            data = [list(map(float, dict_request.values()))]
-            response = {"response": predict(data)}
-            return response
-    except NotInRange as e:
-        raise NotInRange({"the_exected_range": get_schema(), "response": str(e)})
-    except NotInCols as e:
-        raise NotInCols({"the_exected_cols": get_schema().keys(), "response": str(e)})
+    if validate_input(dict_request):
+        data = [list(map(float, dict_request.values()))]
+        response = {"response": predict(data)}
+        return response
 
 
 def api_response(dict_request):
