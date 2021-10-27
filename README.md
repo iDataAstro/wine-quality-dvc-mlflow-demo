@@ -109,3 +109,16 @@ python setup.py sdist bdist_wheel
 
 ## Wine Quality Prediction
 [Wine Quality Prediction](https://wine-quality-dvc-demo.herokuapp.com/)
+
+## Create a new branch 
+```
+git checkout -b main-mlflow
+```
+
+## Mlflow commands
+```
+mlflow server \
+    --backend-store-uri sqlite:///mlflow.db \
+    --default-artifact-root ./artifacts \
+    --host 0.0.0.0 -p 1234
+```

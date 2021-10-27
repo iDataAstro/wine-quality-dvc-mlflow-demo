@@ -9,6 +9,8 @@ from sklearn.linear_model import ElasticNet
 from sklearn.metrics import mean_squared_error, mean_absolute_error, r2_score
 import joblib
 import json
+from urllib.parse import urlparse
+import mlflow
 
 from get_data import read_params
 
@@ -41,34 +43,39 @@ def train_and_evaluate(config_path):
     train_y = train[target]
     test_y = test[target]
 
-    clf = ElasticNet(alpha=alpha, l1_ratio=l1_ratio, random_state=random_state)
-    clf.fit(train_x, train_y)
+################## MLFLOW ##################
+    mlflow_config = config["mlflow_config"]
 
-    preds = clf.predict(test_x)
+    remote_server_uri = mlflow_config["remote_server_uri"]
+    mlflow.set_tracking_uri(remote_server_uri)
+    mlflow.set_experiment(mlflow_config["experiment_name"])
 
-    (rmse, mae, r2) = eval_metrics(test_y, preds)
+    with mlflow.start_run(run_name=mlflow_config["run_name"]) as mlops_run:
 
-    print(f"ElasticNet Model (alpth={alpha} l1_ratio={l1_ratio}")
-    print(f"    RMSE: {rmse}")
-    print(f"    MAE: {mae}")
-    print(f"    R2: {r2}")
+        clf = ElasticNet(alpha=alpha, l1_ratio=l1_ratio, random_state=random_state)
+        clf.fit(train_x, train_y)
 
-    ##############################################
-    score_file = config["reports"]["scores"]
-    params_file = config["reports"]["params"]
+        preds = clf.predict(test_x)
 
-    with open(score_file, "w") as f:
-        scores = {"rmse": rmse, "mae": mae, "r2": r2}
-        json.dump(scores, f, indent=4)
+        (rmse, mae, r2) = eval_metrics(test_y, preds)
 
-    with open(params_file, "w") as f:
-        params = {"alpha": alpha, "l1_ratio": l1_ratio}
-        json.dump(params, f, indent=4)
+        mlflow.log_param("alpha", alpha)
+        mlflow.log_param("l1_ratio", l1_ratio)
 
-    ##############################################
-    os.makedirs(model_dir, exist_ok=True)
-    model_path = os.path.join(model_dir, "model.joblib")
-    joblib.dump(clf, model_path)
+        mlflow.log_metric("rmse", rmse)
+        mlflow.log_metric("mae", mae)
+        mlflow.log_metric("r2", r2)
+
+        tracking_url_type_scheme = urlparse(mlflow.get_tracking_uri()).scheme
+
+        if tracking_url_type_scheme != "file":
+            mlflow.sklearn.log_model(
+                clf,
+                "model",
+                registered_model_name=mlflow_config["registered_model_name"]
+            )
+        else:
+            mlflow.sklearn.load_model(clf, "model")
 
 
 if __name__ == '__main__':
